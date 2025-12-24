@@ -1,19 +1,22 @@
 {
-  "name": "@repo/db",
+  "name": "ws-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "exports": {
-    "./client": "./src/index.ts"
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "npm run build && npm run start",
+    "start": "node dist/index.js"
   },
   "devDependencies": {
+    "@repo/db": "*",
     "@repo/typescript-config": "*",
-    "prisma": "^7.2.0"
+    "@types/ws": "^8.18.1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^7.2.0"
+    "ws": "^8.18.3"
   }
 }
