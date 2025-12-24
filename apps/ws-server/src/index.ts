@@ -17,7 +17,7 @@ server.on("connection", (socket: WebSocket) => {
     }).catch((error: any) => {
         console.error("Error creating user:", error);
     });
-    
+     
     console.log("New WebSocket connection established");
     socket.send("Hello! You are connected to the server!");
 });
