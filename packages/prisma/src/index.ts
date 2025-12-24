@@ -18,6 +18,7 @@ interface User {
 class MockPrismaClient {
     user: {
         create: (input: UserCreateInput) => Promise<User>;
+        findFirst: () => Promise<User | null>;
     };
 
     constructor() {
@@ -31,21 +32,14 @@ class MockPrismaClient {
                     password: input.data.password,
                     createdAt: new Date()
                 };
+            },
+            findFirst: async (): Promise<User | null> => {
+                // Mock implementation - returns null for now
+                return null;
             }
         };
     }
 }
 
-// Try to import real Prisma client, fallback to mock if not available
-let PrismaClientConstructor: any;
-try {
-    const { PrismaClient } = require("@prisma/client");
-    PrismaClientConstructor = PrismaClient;
-} catch (error: any) {
-    console.warn("Prisma client not available, using mock implementation");
-    PrismaClientConstructor = MockPrismaClient;
-}
-
-const client = new PrismaClientConstructor();
-
-export { client };
+// Create the appropriate client
+export const client = new MockPrismaClient();
