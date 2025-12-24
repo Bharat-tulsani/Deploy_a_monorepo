@@ -1,28 +1,10 @@
 // Fallback implementation for Prisma client when not available
 // This allows the project to work even when Prisma client can't be installed due to Node version constraints
 
-interface UserCreateInput {
-    data: {
-        username: string;
-        password: string;
-    };
-}
-
-interface User {
-    id: string;
-    username: string;
-    password: string;
-    createdAt: Date;
-}
-
 class MockPrismaClient {
-    user: {
-        create: (input: UserCreateInput) => Promise<User>;
-    };
-
     constructor() {
         this.user = {
-            create: async (input: UserCreateInput): Promise<User> => {
+            create: async (input) => {
                 // Mock implementation - in production this would use a real database
                 console.log("Mock user created:", input.data);
                 return {
@@ -37,15 +19,15 @@ class MockPrismaClient {
 }
 
 // Try to import real Prisma client, fallback to mock if not available
-let PrismaClientConstructor: any;
+let PrismaClientConstructor;
 try {
     const { PrismaClient } = require("@prisma/client");
     PrismaClientConstructor = PrismaClient;
-} catch (error: any) {
+} catch (error) {
     console.warn("Prisma client not available, using mock implementation");
     PrismaClientConstructor = MockPrismaClient;
 }
 
 const client = new PrismaClientConstructor();
 
-export { client };
+module.exports = { client };
